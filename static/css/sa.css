@@ -1,0 +1,47 @@
+.like-group {
+    font-size: 20px;
+}
+
+a.like {
+    font-size: 20px;
+    text-decoration: none;
+    color: rgb(226, 0, 0);
+    transition: color .2s;
+}
+
+a.unlike {
+    color: black;
+}
+
+a.like:hover {
+    color: red;
+}
+
+.paginator-button {
+    font-size: 18px;
+    text-decoration: none;
+}
+
+.search-check-zoom {
+    transform: scale(1.3) translateY(5px);
+}
+
+.btn-outline-lyric:hover {
+    background: #8b00ff !important;
+}
+
+@media (max-device-width: 767px) {
+    #btn-exit-md {
+        display: none;
+    }
+    #btn-exit-sm {
+        display: block;
+    }
+
+    #btn-search-md {
+        display: none;
+    }
+    #btn-search-sm {
+        display: block;
+    }
+}

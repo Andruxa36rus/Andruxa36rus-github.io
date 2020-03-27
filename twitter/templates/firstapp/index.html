@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% block page %}
+
+{% for post in posts %}
+    <div class="bg-white p-2 mb-1 border rounded">
+        <a href="{% url 'post_detail' post_id=post.id %}">
+            {{post.title}}
+        </a>
+        <small>от {{post.username}}</small>
+        <div>
+            <small>
+                {{post.datetime}} 
+                <i class="far fa-heart ml-2"></i> {{post.thumbnumber}} 
+                <i class="far fa-comment ml-1"></i> {{post.comment_set.count}}
+                <i class="far fa-eye ml-1"></i> {{post.viewcount}}
+            </small>
+        </div>
+    </div>
+{% endfor %}
+
+{% include 'firstapp/paginator.html' with page=posts %}
+
+<hr>
+{% if user.is_authenticated %}
+    <form action="create/" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.title.label_tag}}
+        {{ form.title|add_class:"form-control mb-3" }}
+        {{ form.text.label_tag}}
+        {{ form.text|add_class:"form-control"|attr:"rows:3" }}
+        <div class="input-group my-3">
+            <div class="input-group-prepend">
+              <button class="btn btn-outline-secondary btn-outline-lyric" type="submit" id="inputGroupFileAddon03">Запостить</button>
+            </div>
+            <div class="custom-file">
+                {{form.image|add_class:"custom-file-input"}}
+                {{form.image|add_label_class:"custom-file-label"}}
+            </div>
+          </div>
+
+    </form>
+{% else %}
+    <div class="alert alert-info text-center" role="alert">
+        Создавать посты могут только зарегистрированные пользователи!<br>
+        <a href="{% url 'sign_in' %}">Войти</a>
+    </div>
+{% endif %}
+
+{% endblock page %}

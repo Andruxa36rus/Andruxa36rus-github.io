@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+
+{% block title %}Вход{% endblock %}
+{% block page %}
+    <form method="POST" class="bg-white w-50 m-auto border rounded text-center py-3">
+        {% csrf_token %}
+        <h2 class="pb-3 border-bottom">Вход</h2>
+        {% for field in form %}
+            <p>
+                <div>
+                    {{ field.label_tag }}
+                </div>
+                <div>
+                    {{ field|add_class:"form_control w-50" }}
+                </div>
+            </p>
+        {% endfor %}
+        <div class="mb-3 mt-4">
+            <button type='submit' class="btn btn-success">Вход</button>
+            <a href="{% url 'sign_up' %}">Регистрация</a> 
+        </div>
+        {% for message in messages %}
+            <div class="alert alert-danger">
+                {{ message }}
+            </div>
+        {% endfor %}
+    </form>
+{% endblock page %}

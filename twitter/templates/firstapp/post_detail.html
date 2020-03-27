@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% load widget_tweaks %}
+
+{% block title %}
+{{post.title}}
+{% endblock title %}
+{% block page %}
+
+<!-- Пост -->
+<div class="bg-white p-3 mb-1 border rounded">
+    <div class="d-flex justify-content-between">
+        <h2>{{post.title}}</h2>
+        {% if post.username == request.user.username %}
+            <a href="{% url 'edit_post' username=request.user.username post_id=post.id %}">RED</a>
+        {% endif %}
+    </div>
+    <small>Автор: <a href="#">{{post.username}}</a> {{post.datetime}}</small>
+    <p class="mt-2 p-3 bg-light rounded">{{post.text}}</p>
+    <div class="text-center">
+        <img src="/media/{{post.image}}" alt="Картинка" style="max-width:600px; ">
+    </div>
+    
+    {% if post.changed %}
+        <small class="pb-5">ред. {{post.username}} {{post.changed_datetime}}</small>
+    {% endif %}
+    
+    <!-- Лайки -->
+   {% if user_liked_it %}
+        <div class="like-group">
+            <a href="{% url 'like' post_id=post.id %}" class="like">
+                <i class="fas fa-heart"></i>
+            </a> 
+            {{user_tags.count}}
+        </div>
+        {% elif user_liked_it is None %}
+            {% csrf_token %}
+            <div class="like-group">
+                <a href="{% url 'like' post_id=post.id %}" class="like unlike">
+                    <i class="far fa-heart"></i>
+                </a> 
+                {{user_tags.count}}
+            </div>
+    {% endif %}
+
+    <small class="d-block">
+        {% for user in user_tags %}
+            <span><a href="#">{{user}}</a></span>
+        {% endfor %}
+    </small>
+
+    
+    <!-- /Лайки -->
+</div>
+<!-- /Пост -->
+
+<!-- Комментарии -->
+{% if comment %}
+    <div class="bg-white p-3 mb-1 border rounded">
+    <h4>Всего комментариев: {{comment.count}}</h4>
+        {% for c in comment %}
+                <div class="mt-4">
+                    <span>#{{forloop.counter}} </span><a href="#">{{c.username}}</a> <small> прокомментировал {{c.datetime}}</small>
+                </div>
+                <div>
+                    <p class="bg-light mt-3 p-3">{{c.text}}</p>
+                </div>
+        {% endfor %}
+    </div>
+{% endif %}
+<!-- /Комментарии -->
+
+<!-- Форма добавления комментария -->
+<div class="bg-white p-3 mb-1 border rounded">
+    <h6>Оставить комментарий</h4>
+    <form action="add/" method="POST">
+        {% csrf_token %}
+        {{ comment_form.text|add_class:"form-control my-3"|attr:"rows:3" }}
+        <button type="submit" class="btn btn-success">Отправить</button>
+    </form>
+</div>
+<!-- /Форма добавления комментария -->
+{% endblock page %}

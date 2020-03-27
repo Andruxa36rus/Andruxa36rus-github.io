@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% load widget_tweaks %}
+
+{% block page %}
+
+<!-- Форма поиска -->
+{% include 'firstapp/search_form.html' %}
+
+<!-- Результаты поиска -->
+<div class="bg-white p-2 mb-1 border rounded">
+    <h2>Результаты поиска по запросу "{{query}}"</h2>
+    <br>
+    {% if not title_result and not text_result %}
+        <p>Ничего не найдено</p>
+    {% else %}
+        
+        {% if title_result %}
+            {% for post in title_result %}
+                
+                <div class="bg-light p-2 mb-1 border rounded">
+                    <a href="{% url 'post_detail' post_id=post.id %}">{{post.title}}</a>
+                     <small>от {{post.username}}</small>
+                    <div>
+                        <small>
+                            {{post.datetime}} 
+                            <i class="far fa-heart ml-2"></i> {{post.thumbnumber}} 
+                            <i class="far fa-comment ml-1"></i> {{post.comment_set.count}}
+                            <i class="far fa-eye ml-1"></i> {{post.viewcount}}
+                        </small>
+                    </div>
+                </div>
+                
+            {% endfor %}
+        {% endif %}
+
+        {% if text_result  %}
+        <br>
+        <h5>Еще есть что-то похожее внутри:</h5>
+            {% for post in text_result %}
+
+                <div class="bg-light p-2 mb-1 border rounded">
+                    <a href="{% url 'post_detail' post_id=post.id %}">{{post.title}}</a>
+                     <small>от {{post.username}}</small>
+                    <div>
+                        <small>
+                            {{post.datetime}} 
+                            <i class="far fa-heart ml-2"></i> {{post.thumbnumber}} 
+                            <i class="far fa-comment ml-1"></i> {{post.comment_set.count}}
+                            <i class="far fa-eye ml-1"></i> {{post.viewcount}}
+                        </small>
+                    </div>
+                </div>
+
+            {% endfor %}
+        {% endif %}
+
+    {% endif %}
+</div>
+
+{% endblock %}

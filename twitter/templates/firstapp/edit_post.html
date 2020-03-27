@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% load widget_tweaks %}
+
+{% block page %}
+
+<form action="{% url 'edit_post_save' username=request.user.username %}" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type="text" name="post_id" value="{{post_id}}" readonly id="">
+    {{form}}
+
+    <input type="submit" value="Сохранить">
+</form>
+
+{% endblock page %}

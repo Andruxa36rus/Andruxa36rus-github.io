@@ -1,0 +1,15 @@
+<div class="paginator text-center">
+    <span class="step-links">
+        {% if page.has_previous %}
+            <a href="?page={{page.previous_page_number}}"><i class="fas fa-arrow-left paginator-button pt-1"></i></i></a>
+        {% endif %}
+
+        <span class="current">
+            Страница {{page.number}} из {{page.paginator.num_pages}}
+        </span>
+        
+        {% if page.has_next %}
+            <a href="?page={{page.next_page_number}}"><i class="fas fa-arrow-right paginator-button text-info pt-1"></i></i></a>
+        {% endif %}
+    </span>
+</div>
