@@ -4,12 +4,12 @@ from django.db.models import Count
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm, User
+from django.contrib.auth.models import Group
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.postgres.search import SearchVector
 from django.contrib.auth.decorators import login_required
 from .forms import PostForm, LoginForm, CommentForm, SearchForm
 from .models import Post, Comment
-from webhook.base import WebhookBase
 import datetime
 
 
@@ -61,6 +61,7 @@ def sign_up(request):
     if request.method == 'POST':
         user = UserCreationForm(request.POST)
         user = user.save()
+        user.groups.add(Group.objects.get(name='Пользователи'))
         login(request, user)
         return redirect('index')      
     return render(request, 'firstapp/sign_up.html', {'form': form})
@@ -184,6 +185,7 @@ def search_result(request):
 
     return redirect('search')
 
+# Редактировать пост
 def edit_post(request, username, post_id):
     post = get_object_or_404(Post, id = post_id)
     if request.user.username == username:
@@ -191,6 +193,7 @@ def edit_post(request, username, post_id):
         return render(request, 'firstapp/edit_post.html', {'form': form, 'post_id': post_id})
     return redirect('/')
 
+# Сохранить изменения поста
 def edit_post_save(request, username):
     if request.method == 'POST' and username == request.user.username:
         post = Post.objects.get(id = request.POST.get('post_id'))
@@ -203,3 +206,4 @@ def edit_post_save(request, username):
             post.changed = True
             post.save()
             return redirect('post_detail', post.id)
+    return redirect('/')

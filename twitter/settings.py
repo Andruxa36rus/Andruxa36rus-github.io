@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.postgres',
     'firstapp',
+    'user_profile_app',
     'widget_tweaks',
 ]
 

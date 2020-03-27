@@ -15,7 +15,7 @@
         <div class="container d-flex bd-highlight">
              <a href="/" class="btn text-light bd-highlight mr-auto">LyricForum</a>
             {% if user.is_authenticated %}
-            <span class="text-light bd-highlight mt-2 mr-3">Привет, {{user.username}}</span>
+            <a href="{% url 'profile' username=request.user.username %}" class="text-light bd-highlight mt-2 mr-3">{{user.username}}</a>
             <a href="{% url 'search' %}" class="btn btn-outline-light bd-highlight mr-2" id="btn-search-md">Поиск</a>
             <a href="{% url 'logout' %}" class="btn btn-outline-light bd-highlight" id="btn-exit-md">Выход</a>
             {% else %}

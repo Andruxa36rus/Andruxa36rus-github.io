@@ -16,23 +16,30 @@ Including another URLconf
 from django.contrib import admin
 from django.conf.urls import url
 from django.urls import path
-from firstapp import views
+
+from firstapp import views as firstapp
+from user_profile_app import views as user_profile_app
+
 
 from django.conf.urls.static import static
 from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.index, name = 'index'),
-    path('login/', views.sign_in, name = 'sign_in'),
-    path('logout/', views.logout_view, name = 'logout'),
-    path('registration/', views.sign_up, name = 'sign_up'),
-    path('search/', views.search, name = 'search'),
-    path('search/result/', views.search_result, name = 'search_result'),
-    path('create/', views.create_post, name = 'create_post'),
-    url(r'^(?P<post_id>\d+)/$', views.post_detail, name = 'post_detail'),
-    url(r'^(?P<post_id>\d+)/add/$', views.add_comment, name = 'add_comment'),
-    path('<post_id>?like/', views.like, name = 'like'),
-    path('<post_id>?edit=<username>', views.edit_post, name = 'edit_post'),
-    path('?edit=<username>&save', views.edit_post_save, name = 'edit_post_save'),
+    path('', firstapp.index, name = 'index'),
+    path('login/', firstapp.sign_in, name = 'sign_in'),
+    path('logout/', firstapp.logout_view, name = 'logout'),
+    path('registration/', firstapp.sign_up, name = 'sign_up'),
+    path('search/', firstapp.search, name = 'search'),
+    path('search/result/', firstapp.search_result, name = 'search_result'),
+    path('create/', firstapp.create_post, name = 'create_post'),
+    url(r'^(?P<post_id>\d+)/$', firstapp.post_detail, name = 'post_detail'),
+    url(r'^(?P<post_id>\d+)/add/$', firstapp.add_comment, name = 'add_comment'),
+    path('<post_id>?like/', firstapp.like, name = 'like'),
+    path('<post_id>?edit=<username>', firstapp.edit_post, name = 'edit_post'),
+    path('?edit=<username>&save', firstapp.edit_post_save, name = 'edit_post_save'),
+    
+    # user_profile_app
+    path('profile/<username>', user_profile_app.profile, name = 'profile'),
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

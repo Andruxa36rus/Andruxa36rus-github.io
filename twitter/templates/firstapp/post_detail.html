@@ -14,14 +14,14 @@
             <a href="{% url 'edit_post' username=request.user.username post_id=post.id %}">RED</a>
         {% endif %}
     </div>
-    <small>Автор: <a href="#">{{post.username}}</a> {{post.datetime}}</small>
+    <small>Автор: <a href="{% url 'profile' username=post.username %}">{{post.username}}</a> {{post.datetime}}</small>
     <p class="mt-2 p-3 bg-light rounded">{{post.text}}</p>
     <div class="text-center">
         <img src="/media/{{post.image}}" alt="Картинка" style="max-width:600px; ">
     </div>
     
     {% if post.changed %}
-        <small class="pb-5">ред. {{post.username}} {{post.changed_datetime}}</small>
+        <small>ред. {{post.username}} {{post.changed_datetime}}</small>
     {% endif %}
     
     <!-- Лайки -->
